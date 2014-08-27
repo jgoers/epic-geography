@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Student Ability Points</title>
+<link href="stylesheet.css" rel="stylesheet" type="text/css" /></head>
+</head>
+
+<body>
+<h1><p><em>EPIC Geography</em></p>
+<p>Student Ability Points Earned</p>
+<p>***This is the output table that students could check their points on.</p>
+<p>The other page would output to this page***</p>
+<p>&nbsp;</p>
+</h1>
+<table width="200" border="1" align="center">
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Strength</th>
+    <th scope="col">Intelligence</th>
+    <th scope="col">Preparation</th>
+    <th scope="col">Awareness</th>
+    <th scope="col">Creativity</th>
+  </tr>
+  <tr>
+    <td><p>Jeoffry</p></td>
+    <td>5</td>
+    <td>5</td>
+    <td>5</td>
+    <td>7</td>
+    <td>15</td>
+  </tr>
+  <tr>
+    <td>Arya</td>
+    <td>8</td>
+    <td>7</td>
+    <td>5</td>
+    <td>5</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td>Eddard</td>
+    <td>25</td>
+    <td>20</td>
+    <td>20</td>
+    <td>20</td>
+    <td>15</td>
+  </tr>
+  <tr>
+    <td>Hodor</td>
+    <td>25</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>Sansa</td>
+    <td>3</td>
+    <td>7</td>
+    <td>5</td>
+    <td>10</td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>Cersei</td>
+    <td>10</td>
+    <td>25</td>
+    <td>30</td>
+    <td>25</td>
+    <td>25</td>
+  </tr>
+  <tr>
+    <td>Jamie</td>
+    <td>28</td>
+    <td>20</td>
+    <td>30</td>
+    <td>20</td>
+    <td>25</td>
+  </tr>
+  <tr>
+    <td>Robb</td>
+    <td>25</td>
+    <td>20</td>
+    <td>25</td>
+    <td>20</td>
+    <td>18</td>
+  </tr>
+  <tr>
+    <td>Bran</td>
+    <td>5</td>
+    <td>20</td>
+    <td>15</td>
+    <td>35</td>
+    <td>30</td>
+  </tr>
+  </table>
+<table width="300" border="0" align="center">
+  <tr>
+    <th scope="col"><a href="index.html">Home</a></th>
+    <th scope="col"><a href="index.html">Teacher Input</a></th>
+    <th scope="col"><a href="output.html">Student View</a></th>
+  </tr>
+</table>
+
+</body>
+</html>

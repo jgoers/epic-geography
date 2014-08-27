@@ -1,0 +1,60 @@
+<?php
+//echo phpversion();
+//echo "<br>";
+//print_r(SQLite3::version());
+
+class EpicDB extends SQLite3
+{
+    function __construct()
+    {
+        $this->open('epic.sqlite');
+    }
+}
+
+$epicdb = new EpicDB();
+
+$result = $epicdb->query('SELECT studentID, firstName, lastName FROM students WHERE active = "true"');
+//var_dump($result->fetchArray());
+$tableData = "";
+while ($line = $result->fetchArray()) {
+	$resultStrength = $epicdb->querySingle('SELECT SUM(points) FROM strength WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultIntelligence = $epicdb->querySingle('SELECT SUM(points) FROM intelligence WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultPreparation = $epicdb->querySingle('SELECT SUM(points) FROM preparation WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultAwareness = $epicdb->querySingle('SELECT SUM(points) FROM awareness WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultCreativity = $epicdb->querySingle('SELECT SUM(points) FROM creativity WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$tableData = $tableData . "<tr><td>" . $line['firstName'] . " " . $line['lastName'] . "</td><td>" . $resultStrength . "</td><td>" . $resultIntelligence . "</td><td>" . $resultPreparation . "</td><td>" . $resultAwareness . "</td><td>" . $resultCreativity . "</td></tr>";
+}
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Student Ability Points</title>
+<link href="stylesheet.css" rel="stylesheet" type="text/css" /></head>
+</head>
+
+<body>
+<h1><p><em>EPIC Geography</em></p>
+<p>Student Ability Points Earned</p>
+</h1>
+<table border="1" align="center">
+<tr>
+    <th scope="col">Name</th>
+    <th scope="col">Strength</th>
+    <th scope="col">Intelligence</th>
+    <th scope="col">Preparation</th>
+    <th scope="col">Awareness</th>
+    <th scope="col">Creativity</th>
+  </tr>
+<?php echo $tableData; ?>
+</table>
+<table width="300" border="0" align="center">
+  <tr>
+    <th scope="col"><a href="index.php">Home</a></th>
+    <th scope="col"><a href="output.php">Student View</a></th>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<?php
+class EpicDB extends SQLite3
+{
+    function __construct()
+    {
+        $this->open('epic.sqlite');
+    }
+}
+
+$epicdb = new EpicDB();
+
+//Look for fname and lname
+//Add new user if found
+if((isset($_POST['fname'])) && (isset($_POST['lname']))) {
+	$postfname = $_POST['fname'];
+	$postlname = $_POST['lname'];
+	$epicdb->exec('INSERT INTO students(firstName, lastName) VALUES("' . $postfname . '","' . $postlname . '")');
+}
+
+//Look for point as they come in from POST
+//Add point to database from POST
+$postStrength = "";
+$postIntelligence = "";
+$postPreparation = "";
+$postAwareness = "";
+$postCreativity = "";
+$postActivate = "";
+$postDeactivate = "";
+
+if(isset($_POST['Activate'])) {
+	$postActivate = $_POST['Activate'];
+	$epicdb->exec('UPDATE students SET active = "true" WHERE studentID = "' . $postActivate . '"');
+}
+elseif(isset($_POST['Deactivate'])) {
+	$postDeactivate = $_POST['Deactivate'];
+	$epicdb->exec('UPDATE students SET active = "false" WHERE studentID = "' . $postDeactivate . '"');
+}
+elseif(isset($_POST['strength'])) {
+	$postStrength = $_POST['strength'];
+	$epicdb->exec('INSERT INTO strength(studentID, points) VALUES("' . $postStrength . '",1)');
+}
+elseif(isset($_POST['intelligence'])) {
+	$postIntelligence = $_POST['intelligence'];
+	$epicdb->exec('INSERT INTO intelligence(studentID, points) VALUES("' . $postIntelligence . '",1)');
+}
+elseif(isset($_POST['preparation'])) {
+	$postPreparation = $_POST['preparation'];
+	$epicdb->exec('INSERT INTO preparation(studentID, points) VALUES("' . $postPreparation . '",1)');
+}
+elseif(isset($_POST['awareness'])) {
+	$postAwareness = $_POST['awareness'];
+	$epicdb->exec('INSERT INTO awareness(studentID, points) VALUES("' . $postAwareness . '",1)');
+}
+elseif(isset($_POST['creativity'])) {
+	$postAwareness = $_POST['creativity'];
+	$epicdb->exec('INSERT INTO creativity(studentID, points) VALUES("' . $postCreativity . '",1)');
+}
+
+
+$result = $epicdb->query('SELECT studentID, firstName, lastName, active FROM students');
+
+$tableData = "";
+while ($line = $result->fetchArray()) {
+	$resultStrength = $epicdb->querySingle('SELECT SUM(points) FROM strength WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultIntelligence = $epicdb->querySingle('SELECT SUM(points) FROM intelligence WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultPreparation = $epicdb->querySingle('SELECT SUM(points) FROM preparation WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultAwareness = $epicdb->querySingle('SELECT SUM(points) FROM awareness WHERE studentID = "' . $line['studentID'] . '"') + 0;
+	$resultCreativity = $epicdb->querySingle('SELECT SUM(points) FROM creativity WHERE studentID = "' . $line['studentID'] . '"') + 0;
+
+	$tableData = $tableData . "<tr><td>" . $line['firstName'] . " " . $line['lastName'] . '</td>';
+	$tableData = $tableData . '<td>(' . $resultStrength . ') <button name="strength" type="submit" value="' . $line['studentID'] . '">+1</button></td>';
+	$tableData = $tableData . '<td>(' . $resultIntelligence . ') <button name="intelligence" type="submit" value="' . $line['studentID'] . '">+1</button></td>';
+	$tableData = $tableData . '<td>(' . $resultPreparation . ') <button name="preparation" type="submit" value="' . $line['studentID'] . '">+1</button></td>';
+	$tableData = $tableData . '<td>(' . $resultAwareness . ') <button name="awareness" type="submit" value="' . $line['studentID'] . '">+1</button></td>';
+	$tableData = $tableData . '<td>(' . $resultCreativity . ') <button name="creativity" type="submit" value="' . $line['studentID'] . '">+1</button></td>';
+	if ($line['active'] == 'true') {
+		$tempActive = 'Deactivate';
+	}
+	else {
+		$tempActive = 'Activate';
+	}
+	$tableData = $tableData . '<td>' . $line['active'] . '<button name="' . $tempActive . '" type="submit" value="' . $line['studentID'] . '">' . $tempActive . '</button></td>';
+	$tableData = $tableData . '</tr>';
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>EPIC Geography Teacher Input</title>
+<link href="stylesheet.css" rel="stylesheet" type="text/css" /></head>
+
+<body>
+<h1 style="text-align:center">EPIC Geography</h1>
+<form action="index.php" method="post">
+<table width="200" border="5" align="center">
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Strength</th>
+    <th scope="col">Intelligence</th>
+    <th scope="col">Preparation</th>
+    <th scope="col">Awareness</th>
+    <th scope="col">Creativity</th>
+    <th scope="col">Active</th>
+  </tr>
+<?php echo $tableData; ?>
+</table>
+</form>
+<form action="index.php" method="post">
+<table width="200" border="5" align="center">
+<tr>
+<th>First Name</th>
+<th>Last Name</th>
+<th></th>
+</tr>
+<tr>
+<td><input type="text" name="fname"></td>
+<td><input type="text" name="lname"></td>
+<td><input type="submit" value="Add User"></td>
+</tr>
+</table>
+</form>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="300" border="0" align="center">
+  <tr>
+    <th scope="col"><a href="index.php">Home</a></th>
+    <th scope="col"><a href="student.php">Student View</a></th>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
